@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chiesa di Sant'Antonio dei Cappuccini</title>
+<link crossorigin="" href="https://cesium.com" rel="preconnect"/>
+<link crossorigin="" href="https://api.cesium.com" rel="preconnect"/>
+<link crossorigin="" href="https://cdn.jsdelivr.net" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet"/>
+
+<!-- Website CSS -->
+<link href="./style.css?v=heritage-platform-51-clean-performance" rel="stylesheet"/>
+<link href="./script.js?v=heritage-platform-51-clean-performance" rel="modulepreload"/>
+<!-- Three.js -->
+<script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+<!-- ==================================
+       INTRO SCREEN
+  =================================== -->
+<section class="screen intro-screen" id="intro-screen">
+<button aria-label="Click to begin the Italy photo intro and map flight to Martina Franca" class="intro-content" id="start-experience" type="button">
+<h1>Chiesa di Sant'Antonio<br/>dei Cappuccini</h1>
+<span class="intro-instruction">
+        Click to enter
+      </span>
+</button>
+<div class="intro-secondary-actions">
+<button class="skip-intro-button" id="skip-intro" type="button">
+        Skip to 3D Model
+      </button>
+</div>
+<div aria-hidden="true" class="intro-montage" id="intro-montage">
+<div class="intro-montage-slide intro-montage-slide-a" id="intro-montage-slide-a"></div>
+<div class="intro-montage-slide intro-montage-slide-b" id="intro-montage-slide-b"></div>
+<div class="intro-montage-overlay"></div>
+<div class="intro-montage-location" id="intro-montage-location">ITALY</div>
+</div>
+</section>
+<!-- ==================================
+       EARTH SCREEN
+  =================================== -->
+<section class="screen earth-screen is-hidden" id="earth-screen">
+<div id="cesiumContainer"></div>
+<button class="back-to-map-button map-to-3d-button" id="back-to-3d" type="button">
+      Back to 3D
+    </button>
+<header class="earth-header earth-header-with-back-button">
+<span class="earth-project">Chiesa di Sant'Antonio dei Cappuccini</span>
+<span id="flight-status">
+        Italy
+      </span>
+</header>
+<div aria-hidden="true" class="cinematic-landmark" id="cinematic-landmark">
+<span class="cinematic-city" id="cinematic-city">ITALY</span>
+<strong class="cinematic-name" id="cinematic-name">Italian Peninsula</strong>
+<span class="cinematic-sequence" id="cinematic-sequence">01 / 03</span>
+</div>
+<div aria-hidden="true" class="cinematic-letterbox cinematic-letterbox-top"></div>
+<div aria-hidden="true" class="cinematic-letterbox cinematic-letterbox-bottom"></div>
+<div class="route-information">
+<span>
+        ITALY
+      </span>
+<span class="route-line"></span>
+<span>MARTINA FRANCA</span>
+</div>
+
+</section>
+<!-- ==================================
+       MODEL VIEWER
+  =================================== -->
+<section class="screen model-screen is-hidden" id="model-screen">
+<div id="loading">
+      Loading models...
+    </div>
+<button class="back-to-map-button" id="back-to-map" type="button">
+      Back to Map
+    </button>
+<button aria-controls="model-sidebar" aria-expanded="true" aria-label="Collapse 3D Model Explorer" class="sidebar-collapse-toggle" id="sidebar-collapse-toggle" title="Collapse 3D Model Explorer" type="button">›</button>
+<aside class="sidebar" id="model-sidebar">
+<div class="sidebar-header">
+<p class="project-label">
+          DIGITAL SURVEY
+        </p>
+<h2>
+          3D Model Explorer
+        </h2>
+<p class="subtitle">
+          Model Layers
+        </p>
+</div>
+<div class="layer-section-label">SURVEY + MODEL</div>
+<div class="layer-item layer-item-model"><div class="layer-primary-row layer-primary-row-model"><label class="layer-toggle-row">
+<input checked="" data-layer="extModel" type="checkbox"/>
+<span>
+            Exterior Model
+          </span>
+</label><input aria-label="Exterior Model color" class="model-color-input" data-model-color="extModel" title="Model color" type="color" value="#dfddd7"/><div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Exterior Model opacity" class="layer-opacity-input" data-layer-opacity="extModel" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<select aria-label="Exterior model display mode" class="layer-secondary-select mesh-display-select" data-display-mode="extModel">
+<option selected="" value="shaded">
+            Detailed Shaded
+          </option>
+<option value="wireframe">
+            Wireframe
+          </option>
+<option value="original">
+            Original Colors
+          </option>
+<option value="meshColors">
+            Mesh Colors
+          </option>
+</select></div>
+<div class="layer-item layer-item-point-cloud"><div class="layer-primary-row layer-primary-row-point"><label class="layer-toggle-row">
+<input data-layer="extPC" type="checkbox"/>
+<span>
+            Exterior Point Cloud
+          </span>
+</label><div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Exterior Point Cloud opacity" class="layer-opacity-input" data-layer-opacity="extPC" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<select aria-label="Exterior Point Cloud display mode" class="point-display-select layer-secondary-select" data-point-display-mode="extPC">
+<option selected="" value="original">
+            Original Colors
+          </option>
+</select><div class="point-size-control" data-point-size-control="extPC">
+  <label for="point-size-extPC">Point Size</label>
+  <div class="point-size-row">
+    <input aria-label="Exterior Point Cloud point size" class="point-size-input" data-point-size="extPC" id="point-size-extPC" max="2.4" min="0.4" step="0.1" type="range" value="0.8"/>
+    <span id="point-size-value-extPC" data-point-size-value="extPC">0.8 px</span>
+  </div>
+</div></div>
+<div class="layer-item layer-item-model"><div class="layer-primary-row layer-primary-row-model"><label class="layer-toggle-row">
+<input data-layer="intModel" type="checkbox"/>
+<span>
+            Interior Model
+          </span>
+</label><input aria-label="Interior Model color" class="model-color-input" data-model-color="intModel" title="Model color" type="color" value="#dfddd7"/><div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Interior Model opacity" class="layer-opacity-input" data-layer-opacity="intModel" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<select aria-label="Interior model display mode" class="layer-secondary-select mesh-display-select" data-display-mode="intModel">
+<option selected="" value="shaded">
+            Detailed Shaded
+          </option>
+<option value="wireframe">
+            Wireframe
+          </option>
+<option value="original">
+            Original Colors
+          </option>
+<option value="meshColors">
+            Mesh Colors
+          </option>
+</select></div>
+<div class="layer-item layer-item-point-cloud"><div class="layer-primary-row layer-primary-row-point"><label class="layer-toggle-row">
+<input data-layer="intPC" type="checkbox"/>
+<span>
+            Interior Point Cloud
+          </span>
+</label><div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Interior Point Cloud opacity" class="layer-opacity-input" data-layer-opacity="intPC" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<select aria-label="Interior Point Cloud display mode" class="point-display-select layer-secondary-select" data-point-display-mode="intPC">
+<option selected="" value="original">
+            Original Colors
+          </option>
+</select><div class="point-size-control" data-point-size-control="intPC">
+  <label for="point-size-intPC">Point Size</label>
+  <div class="point-size-row">
+    <input aria-label="Interior Point Cloud point size" class="point-size-input" data-point-size="intPC" id="point-size-intPC" max="2.4" min="0.4" step="0.1" type="range" value="0.8"/>
+    <span id="point-size-value-intPC" data-point-size-value="intPC">0.8 px</span>
+  </div>
+</div></div>
+<div class="layer-item layer-item-point-cloud"><div class="layer-primary-row layer-primary-row-point"><label class="layer-toggle-row">
+<input data-layer="leftPC" type="checkbox"/>
+<span>
+            Left Point Cloud
+          </span>
+</label><div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Left Point Cloud opacity" class="layer-opacity-input" data-layer-opacity="leftPC" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<select aria-label="Left Point Cloud display mode" class="point-display-select layer-secondary-select" data-point-display-mode="leftPC">
+<option selected="" value="original">
+            Original Colors
+          </option>
+</select><div class="point-size-control" data-point-size-control="leftPC">
+  <label for="point-size-leftPC">Point Size</label>
+  <div class="point-size-row">
+    <input aria-label="Left Point Cloud point size" class="point-size-input" data-point-size="leftPC" id="point-size-leftPC" max="2.4" min="0.4" step="0.1" type="range" value="0.8"/>
+    <span id="point-size-value-leftPC" data-point-size-value="leftPC">0.8 px</span>
+  </div>
+</div></div>
+<div class="layer-group decay-layer-group">
+<label class="layer-group-header">
+<input id="toggle-decay-detection" type="checkbox"/>
+<span>
+            Decay Detection
+          </span>
+</label>
+<div class="decay-thickness-control">
+<label for="decay-line-thickness">
+            Decay Line Thickness
+          </label>
+<div class="decay-thickness-row">
+<input id="decay-line-thickness" max="6" min="0.4" step="0.1" type="range" value="0.8"/>
+<span id="decay-line-thickness-value">
+              0.8 px
+            </span>
+</div>
+</div>
+<div class="decay-info-hint" aria-label="Information hint">
+<span class="decay-info-hint-icon" aria-hidden="true">i</span>
+<span>Click a decay name for information</span>
+</div>
+<div class="decay-sublayers">
+<div class="decay-sublayer-row">
+<label class="decay-sublayer-toggle decay-checkbox-only" title="Show / hide Biological Colonisation">
+<input data-layer="decayBiological" type="checkbox"/>
+</label>
+<button class="decay-name-button" data-decay-info="decayBiological" type="button" title="Open condition information"><span class="decay-name-label">Biological Colonisation</span><span class="decay-info-badge" aria-hidden="true">i</span></button>
+<input aria-label="Biological colonisation color" class="decay-color-input" data-decay-color="decayBiological" type="color" value="#000000"/>
+<div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Biological Colonisation opacity" class="decay-opacity-input layer-opacity-input" data-layer-opacity="decayBiological" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<div class="decay-sublayer-row">
+<label class="decay-sublayer-toggle decay-checkbox-only" title="Show / hide Patch Repair">
+<input data-layer="decayPatchRepair" type="checkbox"/>
+</label>
+<button class="decay-name-button" data-decay-info="decayPatchRepair" type="button" title="Open condition information"><span class="decay-name-label">Patch Repair</span><span class="decay-info-badge" aria-hidden="true">i</span></button>
+<input aria-label="Patch repair color" class="decay-color-input" data-decay-color="decayPatchRepair" type="color" value="#000000"/>
+<div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Patch Repair opacity" class="decay-opacity-input layer-opacity-input" data-layer-opacity="decayPatchRepair" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<div class="decay-sublayer-row">
+<label class="decay-sublayer-toggle decay-checkbox-only" title="Show / hide Discoloration">
+<input data-layer="decayDiscoloration" type="checkbox"/>
+</label>
+<button class="decay-name-button" data-decay-info="decayDiscoloration" type="button" title="Open condition information"><span class="decay-name-label">Discoloration</span><span class="decay-info-badge" aria-hidden="true">i</span></button>
+<input aria-label="Discoloration color" class="decay-color-input" data-decay-color="decayDiscoloration" type="color" value="#000000"/>
+<div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Discoloration opacity" class="decay-opacity-input layer-opacity-input" data-layer-opacity="decayDiscoloration" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+<div class="decay-sublayer-row">
+<label class="decay-sublayer-toggle decay-checkbox-only" title="Show / hide Soiling">
+<input data-layer="decaySoiling" type="checkbox"/>
+</label>
+<button class="decay-name-button" data-decay-info="decaySoiling" type="button" title="Open condition information"><span class="decay-name-label">Soiling</span><span class="decay-info-badge" aria-hidden="true">i</span></button>
+<input aria-label="Soiling color" class="decay-color-input" data-decay-color="decaySoiling" type="color" value="#000000"/>
+<div class="layer-opacity-control"><span class="layer-opacity-label">Opacity</span><input aria-label="Soiling opacity" class="decay-opacity-input layer-opacity-input" data-layer-opacity="decaySoiling" max="1" min="0" step="0.05" title="Opacity" type="range" value="1"/></div></div>
+</div>
+</div><div aria-label="Temporary measurement history" class="sidebar-measurement-history measurement-history" id="measurement-history">
+<div class="measurement-history-header">
+<span>MEASUREMENTS</span>
+<span id="measurement-history-count">0</span>
+</div>
+<div class="measurement-history-list" id="measurement-history-list"></div>
+<div class="measurement-history-empty" id="measurement-history-empty">No measurements yet</div>
+</div>
+<div class="viewer-display-settings"><div class="display-settings-title">DISPLAY</div><div class="background-preset-row"><span>Background</span><div aria-label="Background style" class="background-swatches" role="group"><button aria-label="Porcelain" class="background-swatch background-swatch-porcelain" data-background-preset="porcelain" title="Porcelain" type="button"></button><button aria-label="Warm ivory" class="background-swatch background-swatch-ivory" data-background-preset="ivory" title="Warm ivory" type="button"></button><button aria-label="Graphite" class="background-swatch background-swatch-graphite is-active" data-background-preset="graphite" title="Graphite" type="button"></button><button aria-label="Warm stone" class="background-swatch background-swatch-warm" data-background-preset="warm" title="Warm stone" type="button"></button><button aria-label="Blue grey" class="background-swatch background-swatch-bluegrey" data-background-preset="bluegrey" title="Blue grey" type="button"></button><label aria-label="Custom background" class="background-custom-swatch" title="Custom background"><input aria-label="Custom background color" id="background-custom-color" type="color" value="#262a2f"/><span>+</span></label></div></div><label class="display-color-row" for="measurement-color"><span>Measurement</span><input aria-label="Measurement color" id="measurement-color" type="color" value="#7a1f1f"/></label></div><div class="buttons">
+<button id="show-all" type="button">
+          Show All
+        </button>
+<button id="hide-all" type="button">
+          Hide All
+        </button>
+</div>
+</aside>
+<div aria-label="Measurement tools" class="viewer-measure-tools">
+<div class="measure-button-row">
+<button aria-pressed="false" class="measure-tool-button" id="measure-distance" type="button">
+          Distance
+        </button>
+<button aria-pressed="false" class="measure-tool-button" id="measure-angle" type="button">Angle</button>
+<button class="measure-tool-button measure-clear-button" id="clear-measurements" type="button">Clear</button>
+<select aria-label="Measurement unit" class="measure-unit-select" id="measurement-unit">
+<option selected="" value="m">m</option>
+<option value="cm">cm</option>
+<option value="mm">mm</option>
+</select>
+</div>
+<span class="measurement-status" id="measurement-status"></span>
+</div>
+<div aria-label="Survey content" class="viewer-content-tools">
+<button class="viewer-content-button" id="open-photo-panel" type="button">
+<span class="viewer-content-title">
+          Survey Photos
+        </span>
+<span class="viewer-content-subtitle">
+          Exterior · Interior · Fieldwork · Orthophotos
+        </span>
+</button>
+<button class="viewer-content-button" id="open-info-panel" type="button">
+<span class="viewer-content-title">
+          Survey Information
+        </span>
+<span class="viewer-content-subtitle">
+          Methods · Equipment · Team
+        </span>
+</button>
+
+</div>
+<section aria-hidden="true" aria-label="Survey photo archive" class="viewer-drawer" id="survey-photo-panel">
+<div class="viewer-drawer-header">
+<div>
+<p class="viewer-drawer-kicker">
+            VISUAL ARCHIVE
+          </p>
+<h3>
+            Survey Photos
+          </h3>
+</div>
+<button aria-label="Close survey photos" class="viewer-drawer-close" data-close-drawer="" type="button">
+          ×
+        </button>
+</div>
+<div aria-label="Survey photo categories" class="photo-category-tabs" role="tablist">
+<button aria-selected="true" class="photo-category-button is-active" data-photo-category="exterior" role="tab" type="button">
+          Exterior
+        </button>
+<button aria-selected="false" class="photo-category-button" data-photo-category="interior" role="tab" type="button">
+          Interior
+        </button>
+<button aria-selected="false" class="photo-category-button" data-photo-category="survey" role="tab" type="button">
+          Fieldwork
+        </button>
+<button aria-selected="false" class="photo-category-button" data-photo-category="orthophotos" role="tab" type="button">
+          Orthophotos
+        </button>
+</div>
+<div class="survey-photo-grid" id="survey-photo-gallery"></div>
+<p class="drawer-note">
+        Browse exterior, interior, fieldwork and orthophoto images from the project archive.
+      </p>
+</section>
+<section aria-hidden="true" aria-label="Survey information" class="viewer-drawer" id="survey-info-panel">
+<div class="viewer-drawer-header">
+<div>
+<p class="viewer-drawer-kicker">
+            PROJECT RECORD
+          </p>
+<h3>
+            Survey Information
+          </h3>
+</div>
+<button aria-label="Close survey information" class="viewer-drawer-close" data-close-drawer="" type="button">
+          ×
+        </button>
+</div>
+<div class="survey-info-content">
+<!-- Edit the text below with your final project information. -->
+<article class="survey-info-card">
+<h4>
+            Survey Scope
+          </h4>
+<p>
+           Comprehensive 3D metric documentation and digital twin creation of the Chiesa di Sant'Antonio dei Cappuccini in Martina Franca. The project captures the entire monumental complex, from large-scale exterior facades and roof structures down to complex interior geometries, including vaulted ceilings, side chapels, and highly detailed handcrafted wooden altars.
+          </p>
+</article>
+<details class="survey-info-card survey-team-card survey-equipment-card">
+<summary>
+<span>Survey Equipment</span>
+<span class="survey-team-summary-hint">Click to view</span>
+</summary>
+<div class="survey-team-list">
+<p class="survey-equipment-intro">
+              A rigorous multi-sensor data fusion approach combining aerial and terrestrial mapping systems georeferenced under the RDN2008-UTM33N system:
+            </p>
+<article class="survey-team-member">
+<div aria-hidden="true" class="survey-team-avatar">
+<span>UAV</span>
+<img alt="" onerror="this.style.display='none'" src="./photos/assets/equipment-dji-mavic-2-pro.jpg"/>
+</div>
+<div class="survey-team-member-content">
+<h5>Aerial Photogrammetry (UAV)</h5>
+<p class="survey-team-affiliation">
+                  Exterior surfaces and roofs captured via a DJI Mavic 2 Pro drone equipped with a 20 MP Hasselblad camera, processing 519 high-resolution images through SfM/MVS algorithms.
+                </p>
+</div>
+</article>
+<article class="survey-team-member">
+<div aria-hidden="true" class="survey-team-avatar">
+<span>MMS</span>
+<img alt="" onerror="this.style.display='none'" src="./photos/assets/equipment-xgrids-lixel-l2.jpg"/>
+</div>
+<div class="survey-team-member-content">
+<h5>Indoor LiDAR Survey (MMS)</h5>
+<p class="survey-team-affiliation">
+                  Intricate interior heritage spaces documented using an XGRIDS LIXEL L2 handheld Mobile Laser Scanner driven by SLAM technology, capturing over 640,000 points/second.
+                </p>
+</div>
+</article>
+<article class="survey-team-member">
+<div aria-hidden="true" class="survey-team-avatar">
+<span>GNSS</span>
+<img alt="" onerror="this.style.display='none'" src="./photos/assets/equipment-leica-gnss-viva-12.jpg"/>
+</div>
+<div class="survey-team-member-content">
+<h5>Topographic Control</h5>
+<p class="survey-team-affiliation">
+                  Absolute spatial georeferencing secured through an 11-point Ground Control Point (GCP) network, surveyed using a Leica GNSS Viva 12 receiver in high-precision PPK mode.
+                </p>
+</div>
+</article>
+</div>
+</details>
+<details class="survey-info-card survey-team-card">
+<summary>
+<span>Survey Team</span>
+<span class="survey-team-summary-hint">Click to view</span>
+</summary>
+<div class="survey-team-list">
+<article class="survey-team-member">
+<div aria-hidden="true" class="survey-team-avatar">
+<span>DC</span>
+<img alt="" onerror="this.style.display='none'" src="./photos/assets/team-domenica-costantino.jpg"/>
+</div>
+<div class="survey-team-member-content">
+<h5>Dr. Domenica Costantino</h5>
+<p class="survey-team-affiliation">
+                  Dipartimento di Ingegneria Civile, Ambientale, del Territorio, Edile e di Chimica, Polytechnic University of Bari.
+                </p>
+<p class="survey-team-interests">
+<strong>Interests:</strong> DTM; surveying; photogrammetry; geomatics; environment; geographic information system; remote sensing; spatial analysis; geography; navigation
+                </p>
+<a aria-label="Email Dr. Domenica Costantino" class="survey-team-email" href="mailto:domenica.costantino@poliba.it">
+                  Email
+                </a>
+</div>
+</article>
+<article class="survey-team-member">
+<div aria-hidden="true" class="survey-team-avatar">
+<span>VA</span>
+<img alt="" onerror="this.style.display='none'" src="./photos/assets/team-vincenzo-saverio-alfio.jpg"/>
+</div>
+<div class="survey-team-member-content">
+<h5>Dr. Vincenzo Saverio Alfio</h5>
+<p class="survey-team-affiliation">
+                  Dipartimento di Ingegneria Civile, Ambientale, del Territorio, Edile e di Chimica, Polytechnic University of Bari.
+                </p>
+<p class="survey-team-interests">
+<strong>Interests:</strong> 3D surveying; photogrammetry; terrestrial laser scanner; remote sensing; geographic information system; UAV; cultural heritage; heritage; building information modeling
+                </p>
+<a aria-label="Email Dr. Vincenzo Saverio Alfio" class="survey-team-email" href="mailto:vincenzosaverio.alfio@poliba.it">
+                  Email
+                </a>
+</div>
+</article>
+<article class="survey-team-member">
+<div aria-hidden="true" class="survey-team-avatar">
+<span>AR</span>
+<img alt="" onerror="this.style.display='none'" src="./photos/assets/team-alfredo-garofalo-restuccia.jpg"/>
+</div>
+<div class="survey-team-member-content">
+<h5>Dr. Alfredo Garofalo Restuccia</h5>
+<p class="survey-team-affiliation">
+                  A.E.S.E.I. SPIN OFF, Polytechnic University of Bari.
+                </p>
+<p class="survey-team-interests">
+<strong>Interests:</strong> 3D surveying; Structural Engineering, Concrete &amp; Steel Structures, Bridge Information Modeling (BrIM). Building Information Modeling (BIM), Digital Twin, Structural Health Monitoring.
+                </p>
+<a aria-label="Email Dr. Alfredo Garofalo Restuccia" class="survey-team-email" href="mailto:a.restucciagarofa@phd.poliba.it">
+                  Email
+                </a>
+</div>
+</article>
+</div>
+</details>
+</div>
+</section>
+
+<aside aria-hidden="true" class="analysis-inspector" id="analysis-inspector">
+<button aria-label="Close information" class="analysis-inspector-close" id="close-analysis-inspector" type="button">×</button>
+<p class="analysis-inspector-kicker" id="analysis-inspector-kicker">ANALYSIS</p>
+<h3 id="analysis-inspector-title">Select an analysis region</h3>
+<div class="analysis-inspector-body" id="analysis-inspector-body"></div>
+</aside>
+<div aria-hidden="true" class="photo-lightbox" id="photo-lightbox">
+<button aria-label="Close image" class="photo-lightbox-close" id="close-photo-lightbox" type="button">
+        ×
+      </button>
+<button aria-label="Previous image" class="photo-lightbox-navigation photo-lightbox-previous" id="photo-lightbox-previous" type="button">
+        ‹
+      </button>
+<figure class="photo-lightbox-content">
+<div class="photo-lightbox-stage" id="photo-lightbox-stage">
+<img alt="" draggable="false" id="photo-lightbox-image"/>
+</div>
+<figcaption>
+<span id="photo-lightbox-caption"></span>
+<span class="photo-lightbox-counter" id="photo-lightbox-counter"></span>
+</figcaption>
+</figure>
+<button aria-label="Next image" class="photo-lightbox-navigation photo-lightbox-next" id="photo-lightbox-next" type="button">
+        ›
+      </button>
+<div aria-label="Image zoom controls" class="photo-lightbox-zoom-tools">
+<button aria-label="Zoom out" id="photo-zoom-out" type="button">
+          −
+        </button>
+<button aria-label="Reset zoom" id="photo-zoom-reset" type="button">
+          100%
+        </button>
+<button aria-label="Zoom in" id="photo-zoom-in" type="button">
+          +
+        </button>
+</div>
+</div>
+<div aria-label="Viewer display tools" class="viewer-quick-tools">
+<button aria-pressed="true" class="viewer-tool-button is-active" id="toggle-ground" type="button">
+        Ground
+      </button>
+<button aria-pressed="false" class="viewer-tool-button" id="toggle-section" title="Toggle oriented section box" type="button">
+        Section Box
+      </button>
+</div>
+<div aria-hidden="true" class="section-mode-toolbar" id="section-mode-toolbar">
+  <button class="section-mode-button is-active" data-section-mode="resize" type="button">Resize</button>
+  <button class="section-mode-button" data-section-mode="move" type="button">Move</button>
+  <button class="section-mode-button" data-section-mode="rotate" type="button">Rotate</button>
+  <button class="section-mode-button section-reset-button" id="reset-section-box" type="button">Reset</button>
+</div>
+<div id="viewer"></div>
+</section>
+<!-- Earth and intro logic -->
+<script src="./intro.js?v=heritage-platform-51-clean-performance"></script>
+</body>
+</html>
