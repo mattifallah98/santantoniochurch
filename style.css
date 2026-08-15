@@ -845,6 +845,7 @@ input {
   border-radius: 8px;
 
   background: #e4e4e1;
+
   color: #4a4a4a;
 
   font-size: 9px;
@@ -3706,13 +3707,14 @@ input {
   z-index: 34;
   top: 34px;
   right: calc(var(--viewer-right-width) + 30px);
-  width: 28px;
+  width: auto;
   height: 42px;
-  padding: 0;
-  display: grid;
-  place-items: center;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(255,255,255,.22);
-  border-radius: 10px;
+  border-radius: 20px;
   background: rgba(20,20,20,.78);
   color: #fff;
   font-size: 20px;
@@ -4648,10 +4650,14 @@ input {
     z-index: 60 !important;
     top: max(12px, env(safe-area-inset-top)) !important;
     right: 12px !important;
-    width: 44px !important;
+    width: auto !important;
+    padding: 0 16px !important;
     height: 44px !important;
-    border-radius: 50% !important;
-    font-size: 22px !important;
+    border-radius: 22px !important;
+    font-size: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .viewer-measure-tools {

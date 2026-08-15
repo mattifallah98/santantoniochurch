@@ -242,7 +242,9 @@ function setSidebarCollapsed(collapsed) {
   );
   sidebarCollapseToggle.title =
     collapsed ? "Expand 3D Model Explorer" : "Collapse 3D Model Explorer";
-  sidebarCollapseToggle.textContent = collapsed ? "‹" : "›";
+  sidebarCollapseToggle.innerHTML = collapsed 
+    ? "<span style='font-size: 13px; margin-right: 5px; font-weight: bold;'>Layers</span> ‹" 
+    : "<span style='font-size: 13px; margin-right: 5px; font-weight: bold;'>Layers</span> ›";
 }
 
 if (sidebarCollapseToggle && modelSidebar) {
@@ -9226,4 +9228,3 @@ window.requestAnimationFrame(
 
   }
 );
-
